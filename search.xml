@@ -4,6 +4,51 @@
   
     
     <entry>
+      <title>acwing每日一题第四周</title>
+      <link href="/2024/03/22/acwing%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E7%AC%AC%E5%9B%9B%E5%91%A8/"/>
+      <url>/2024/03/22/acwing%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E7%AC%AC%E5%9B%9B%E5%91%A8/</url>
+      
+        <content type="html"><![CDATA[<h2 id="ACWING每日一题第四周习题"><a href="#ACWING每日一题第四周习题" class="headerlink" title="ACWING每日一题第四周习题"></a>ACWING每日一题第四周习题</h2><h3 id="日期差值"><a href="#日期差值" class="headerlink" title="日期差值"></a>日期差值</h3><p>有两个日期，求两个日期之间的天数，如果两个日期是连续的我们规定他们之间的天数为两天。</p><h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入包含多组测试数据。</p><p>每组数据占两行，分别表示两个日期，形式为 <code>YYYYMMDD</code>。</p><h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>每组数据输出一行，即日期差值。</p><h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>年份范围 [1,9999][1,9999],<br>保证输入日期合法。<br>测试数据的组数不超过 100100。</p><h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">20110412</span><br><span class="line">20110422</span><br></pre></td></tr></table></figure><h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">11</span><br></pre></td></tr></table></figure><p>首先根据日期模板先把每年的月份写出来</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const int months[]=&#123;0,31,28,31,30,31,30,31,31,30,31,30,31&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>再写一个函数判断是否为闰年，是闰年则2月+1天</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int is_leap(int year)</span><br><span class="line">&#123;</span><br><span class="line">if((year%100&amp;&amp;year%4==0)||year%400==0)&#123;</span><br><span class="line">return 1;</span><br><span class="line">&#125;</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>写一个函数来获取每月有多少天</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int get_month(int year,int month)</span><br><span class="line">&#123;</span><br><span class="line">res=months[month];</span><br><span class="line">if(month=2) res+=is_leap(int year);</span><br><span class="line">return res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>最后写出计算总日期的函数</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int get_totles(int year,int month,int day)</span><br><span class="line">&#123;</span><br><span class="line">int res=0;</span><br><span class="line">for(int i=1;i&lt;year;i++)</span><br><span class="line">&#123;</span><br><span class="line">res=res+365+is_leap(i);</span><br><span class="line">&#125;</span><br><span class="line">for(int i=1;i&lt;month;i++)</span><br><span class="line">&#123;</span><br><span class="line">res=res+get_month(year,i);</span><br><span class="line">&#125;</span><br><span class="line">return res+day;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>最后写出主函数，因为会有多组数据同时测试，所以需要写出循环,并且数据中没有给出哪组减去哪组，需要加上绝对值</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">int y1,m1,d1,y2,m2,d2;</span><br><span class="line">while(scanf(&quot;%04d%02d%02d&quot;,&amp;y1,&amp;m1,&amp;d1))</span><br><span class="line">&#123;</span><br><span class="line">scanf(&quot;%04d%02d%02d&quot;,&amp;y2,m2,d2);</span><br><span class="line">printf(&quot;%d&quot;,abs(get_totles(y1,m1,d1)-get_totles(y2,m2,d2)+1));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>最终代码如下</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">const int months[]=&#123;0,31,28,31,30,31,30,31,31,30,31,30,31&#125;;</span><br><span class="line"></span><br><span class="line">int is_leap(int year)</span><br><span class="line">&#123;</span><br><span class="line">if((year%100&amp;&amp;year%4==0)||year%400==0)&#123;</span><br><span class="line">return 1;</span><br><span class="line">&#125;</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int get_month(int year,int month)</span><br><span class="line">&#123;</span><br><span class="line">int res = months[month];</span><br><span class="line">if(month==2) res+=is_leap(year);</span><br><span class="line">return res;</span><br><span class="line">&#125;</span><br><span class="line">int get_totles(int year,int month, int day)</span><br><span class="line">&#123;</span><br><span class="line">int res = 0;</span><br><span class="line">for(int i=1;i&lt;year;i++)&#123;</span><br><span class="line">res=res+365+is_leap(i);</span><br><span class="line">&#125;</span><br><span class="line">for(int i=1;i&lt;month;i++)</span><br><span class="line">&#123;</span><br><span class="line">res=res+get_month(year,i);</span><br><span class="line">&#125;</span><br><span class="line">return res+day;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">int y1,m1,d1,y2,m2,d2;</span><br><span class="line">while(scanf(&quot;%04d%02d%02d&quot;,&amp;y1,&amp;m1,&amp;d1)!=-1)&#123;</span><br><span class="line">scanf(&quot;%04d%02d%02d&quot;,&amp;y2,&amp;m2,&amp;d2);</span><br><span class="line">printf(&quot;%d\n&quot;,abs(get_totles(y1,m1,d1)-get_totles(y2,m2,d2))+1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 算法竞赛 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>二分查找</title>
+      <link href="/2024/03/20/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/"/>
+      <url>/2024/03/20/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>蓝桥杯23年原题</title>
+      <link href="/2024/03/20/%E8%93%9D%E6%A1%A5%E6%9D%AF23%E5%B9%B4%E5%8E%9F%E9%A2%98/"/>
+      <url>/2024/03/20/%E8%93%9D%E6%A1%A5%E6%9D%AF23%E5%B9%B4%E5%8E%9F%E9%A2%98/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>蓝桥杯模拟赛</title>
       <link href="/2024/03/12/%E8%93%9D%E6%A1%A5%E6%9D%AF%E6%A8%A1%E6%8B%9F%E8%B5%9B/"/>
       <url>/2024/03/12/%E8%93%9D%E6%A1%A5%E6%9D%AF%E6%A8%A1%E6%8B%9F%E8%B5%9B/</url>
